@@ -1,0 +1,1396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Over the Garden Wall - Ep 4: Songs of the Dark Lantern (English Speaking Club)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=IM+Fell+English:ital@0;1&family=Plus+Jakarta+Sans:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            otgw: {
+              bg: '#120c08',
+              card: '#1e1510',
+              accent: '#d97706',
+              gold: '#f59e0b',
+              parchment: '#fef3c7',
+              muted: '#a38f78',
+              darkgreen: '#14281d',
+              bloodred: '#7f1d1d',
+              border: '#3a271a'
+            }
+          },
+          fontFamily: {
+            cinzel: ['Cinzel', 'serif'],
+            fell: ['"IM Fell English"', 'serif'],
+            sans: ['"Plus Jakarta Sans"', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background-color: #0c0805;
+      color: #fef3c7;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      overflow-x: hidden;
+    }
+    .font-vintage { font-family: 'Cinzel', serif; }
+    .font-story { font-family: 'IM Fell English', serif; }
+    .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+    .custom-scrollbar::-webkit-scrollbar-track { background: #120c08; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: #3a271a; border-radius: 3px; }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #d97706; }
+    .amber-glow { filter: drop-shadow(0 0 12px rgba(217, 119, 6, 0.4)); }
+    .slide-enter { animation: fadeIn 0.4s ease-out forwards; }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between select-none">
+
+  <!-- TOP BAR / HEADER -->
+  <header class="bg-otgw-card border-b border-otgw-border px-4 py-3 flex items-center justify-between shadow-lg relative z-20">
+    <div class="flex items-center gap-3">
+      <div class="w-9 h-9 rounded-full bg-amber-600/20 border border-amber-500/50 flex items-center justify-center text-amber-500 text-lg font-vintage amber-glow">
+        🎃
+      </div>
+      <div>
+        <h1 class="font-vintage text-amber-500 font-bold text-sm sm:text-base tracking-wider uppercase">Over the Garden Wall</h1>
+        <p class="text-xs text-otgw-muted font-story">Chapter 4: Songs of the Dark Lantern — Speaking Club Presentation</p>
+      </div>
+    </div>
+
+    <!-- Right Controls -->
+    <div class="flex items-center gap-2">
+      <button onclick="toggleDictionaryModal()" class="px-3 py-1.5 rounded-lg bg-amber-950/60 border border-amber-700/50 text-amber-300 hover:bg-amber-900/50 text-xs sm:text-sm font-semibold flex items-center gap-1.5 transition">
+        <span>📖</span> Dictionary (<span id="dict-count">0</span>)
+      </button>
+      <button onclick="toggleTeacherNotes()" id="notes-btn" class="px-3 py-1.5 rounded-lg bg-otgw-darkgreen/60 border border-emerald-700/50 text-emerald-300 hover:bg-emerald-900/50 text-xs sm:text-sm font-semibold flex items-center gap-1.5 transition">
+        <span>💡</span> Teacher Notes
+      </button>
+      <button onclick="toggleOverviewModal()" class="p-1.5 rounded-lg bg-otgw-card border border-otgw-border hover:bg-amber-900/30 text-otgw-parchment text-sm">
+        <span>📑</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- MAIN SLIDE VIEWER -->
+  <main class="flex-1 max-w-6xl w-full mx-auto p-3 sm:p-6 flex flex-col justify-center relative">
+    
+    <!-- SLIDE CONTAINER -->
+    <div id="slide-container" class="bg-otgw-card/90 border border-otgw-border rounded-2xl p-5 sm:p-8 shadow-2xl relative min-h-[580px] flex flex-col justify-between slide-enter backdrop-blur-sm">
+      <!-- Dynamic slide content will be rendered here by JS -->
+    </div>
+
+    <!-- TEACHER NOTES PANEL (Collapsible) -->
+    <div id="teacher-notes-panel" class="hidden mt-4 p-4 rounded-xl bg-amber-950/90 border border-amber-600/40 text-amber-100 text-sm shadow-xl transition-all">
+      <div class="flex items-center justify-between font-bold text-amber-400 mb-1 border-b border-amber-800/60 pb-1">
+        <span>💡 Teacher's Guide & Methodological Tips</span>
+        <button onclick="toggleTeacherNotes()" class="text-xs text-amber-400 hover:underline">Close ✕</button>
+      </div>
+      <p id="teacher-notes-text" class="text-xs sm:text-sm text-amber-200/90 leading-relaxed font-sans">
+        Prompt students to describe what they see in the lantern light. Focus on dramatic intonation when reading character quotes.
+      </p>
+    </div>
+
+  </main>
+
+  <!-- FOOTER NAVIGATION BAR -->
+  <footer class="bg-otgw-card border-t border-otgw-border px-4 py-3 flex flex-col sm:flex-row items-center justify-between gap-3 relative z-20">
+    <!-- Progress Indicator -->
+    <div class="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-start">
+      <span class="text-xs font-semibold text-otgw-muted font-mono" id="slide-number-display">Slide 1 / 18</span>
+      <div class="w-32 sm:w-48 bg-otgw-bg rounded-full h-2 overflow-hidden border border-otgw-border">
+        <div id="progress-bar" class="bg-gradient-to-r from-amber-600 to-amber-400 h-full transition-all duration-300" style="width: 5%;"></div>
+      </div>
+    </div>
+
+    <!-- Direct Navigation Buttons -->
+    <div class="flex items-center gap-2">
+      <button onclick="prevSlide()" id="prev-btn" class="px-4 py-2 rounded-lg bg-otgw-bg border border-otgw-border hover:bg-amber-900/30 disabled:opacity-30 disabled:hover:bg-otgw-bg text-sm font-semibold transition">
+        ← Previous
+      </button>
+      <button onclick="nextSlide()" id="next-btn" class="px-5 py-2 rounded-lg bg-amber-600 hover:bg-amber-500 text-amber-950 font-bold text-sm shadow-md transition">
+        Next →
+      </button>
+    </div>
+  </footer>
+
+  <!-- DICTIONARY & GLOSSARY MODAL -->
+  <div id="dict-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-3 sm:p-6 hidden">
+    <div class="bg-otgw-card border border-otgw-border rounded-2xl w-full max-w-4xl max-h-[90vh] flex flex-col shadow-2xl overflow-hidden">
+      <!-- Modal Header -->
+      <div class="p-4 sm:p-5 border-b border-otgw-border flex items-center justify-between bg-otgw-bg">
+        <div>
+          <h2 class="font-vintage text-lg sm:text-xl text-amber-500 font-bold">📜 Complete Episode 4 Dictionary</h2>
+          <p class="text-xs text-otgw-muted">All 65+ words and 51 phrases from "Songs of the Dark Lantern"</p>
+        </div>
+        <button onclick="toggleDictionaryModal()" class="text-otgw-muted hover:text-amber-400 text-xl font-bold px-2 py-1">✕</button>
+      </div>
+
+      <!-- Search & Category Filters -->
+      <div class="p-4 border-b border-otgw-border bg-otgw-card/50 flex flex-col sm:flex-row gap-3">
+        <input type="text" id="dict-search" oninput="filterDictionary()" placeholder="🔍 Search word, phrase, translation, or theme..." class="flex-1 bg-otgw-bg border border-otgw-border rounded-lg px-3 py-2 text-sm text-otgw-parchment focus:outline-none focus:border-amber-500">
+        <select id="dict-filter" onchange="filterDictionary()" class="bg-otgw-bg border border-otgw-border rounded-lg px-3 py-2 text-sm text-amber-300 focus:outline-none">
+          <option value="all">All Items</option>
+          <option value="vocabulary">Words (Словарик)</option>
+          <option value="idioms">Idioms & Expressions</option>
+          <option value="descriptions">Descriptions & Roles</option>
+          <option value="conversational">Conversational Phrases</option>
+          <option value="songs">Song Lyrics</option>
+          <option value="creepy">Atmospheric & Spooky</option>
+          <option value="rare">Beautiful & Rare Words</option>
+        </select>
+      </div>
+
+      <!-- Dictionary List Container -->
+      <div id="dict-list" class="flex-1 overflow-y-auto p-4 custom-scrollbar space-y-3">
+        <!-- Rendered via JS -->
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="p-3 border-t border-otgw-border bg-otgw-bg text-right">
+        <button onclick="toggleDictionaryModal()" class="px-4 py-1.5 rounded-lg bg-amber-600 text-amber-950 font-bold text-sm hover:bg-amber-500">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE OVERVIEW MODAL -->
+  <div id="overview-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-otgw-card border border-otgw-border rounded-2xl w-full max-w-3xl max-h-[85vh] flex flex-col shadow-2xl overflow-hidden">
+      <div class="p-4 border-b border-otgw-border flex justify-between items-center bg-otgw-bg">
+        <h3 class="font-vintage text-amber-500 font-bold">📑 Presentation Overview (18 Slides)</h3>
+        <button onclick="toggleOverviewModal()" class="text-otgw-muted hover:text-amber-400">✕</button>
+      </div>
+      <div id="overview-grid" class="p-4 grid grid-cols-2 sm:grid-cols-3 gap-3 overflow-y-auto custom-scrollbar">
+        <!-- Rendered by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- JAVASCRIPT DATA & SLIDE ENGINE -->
+  <script>
+    // COMPLETE VOCABULARY DATASET FROM USER PROMPT
+    const vocabularyList = [
+      // WORDS FROM DICTIONARY
+      { word: "carriage driver", transcription: "/ˈkær.ɪdʒ ˈdraɪ.vər/", translation: "кучер", category: "vocabulary", example: "That driver is nuts! He left us in the hay pile." },
+      { word: "beast", transcription: "/biːst/", translation: "зверь", category: "vocabulary", example: "The Beast is upon me! Beware of the Unknown." },
+      { word: "hay pile", transcription: "/heɪ paɪl/", translation: "стог сена", category: "vocabulary", example: "They hid inside a hay pile during the thunderstorm." },
+      { word: "nuts", transcription: "/nʌts/", translation: "орехи; псих (разг.)", category: "vocabulary", example: "That carriage driver is nuts!" },
+      { word: "off course", transcription: "/ɒf kɔːs/", translation: "в сторону, не туда", category: "vocabulary", example: "We are way off course in this foggy woods." },
+      { word: "bananas (разг.)", transcription: "/bəˈnɑː.nəz/", translation: "сумасшедший, чокнутый", category: "vocabulary", example: "Why are you acting all bananas?" },
+      { word: "lightning", transcription: "/ˈlaɪt.nɪŋ/", translation: "молния", category: "vocabulary", example: "A flash of lightning illuminated the dark tavern." },
+      { word: "whinny", transcription: "/ˈwɪn.i/", translation: "ржать (о лошади)", category: "vocabulary", example: "Fred the horse gave a loud whinny." },
+      { word: "tavern", transcription: "/ˈtæv.ən/", translation: "таверна", category: "vocabulary", example: "They sought shelter inside a creepy tavern." },
+      { word: "creepy", transcription: "/ˈkriː.pi/", translation: "жуткий", category: "vocabulary", example: "This creepy tavern is full of strange people." },
+      { word: "highwayman", transcription: "/ˈhaɪ.weɪ.mæn/", translation: "разбойник с большой дороги", category: "vocabulary", example: "I'm the Highwayman! I steal your shoes from off your feet." },
+      { word: "omen", transcription: "/ˈəʊ.mən/", translation: "предзнаменование", category: "vocabulary", example: "A black cat is seen as a bad omen." },
+      { word: "bad luck", transcription: "/bæd lʌk/", translation: "плохая примета, неудача", category: "vocabulary", example: "Traveling at night brings bad luck." },
+      { word: "curse", transcription: "/kɜːs/", translation: "проклятие, проклинать", category: "vocabulary", example: "Curse you and your dark tavern!" },
+      { word: "butcher", transcription: "/ˈbʊtʃ.ər/", translation: "мясник", category: "vocabulary", example: "The butcher chops meat for the tavern visitors." },
+      { word: "baker", transcription: "/ˈbeɪ.kər/", translation: "пекарь", category: "vocabulary", example: "The baker bakes fresh bread every morning." },
+      { word: "midwife", transcription: "/ˈmɪd.waɪf/", translation: "повитуха, акушерка", category: "vocabulary", example: "The midwife helps deliver babies in the village." },
+      { word: "apprentice", transcription: "/əˈpren.tɪs/", translation: "подмастерье", category: "vocabulary", example: "He works as a tailor's apprentice." },
+      { word: "tailor", transcription: "/ˈteɪ.lər/", translation: "портной", category: "vocabulary", example: "The tailor designs beautiful suits." },
+      { word: "tavern keeper", transcription: "/ˈtæv.ən ˈkiː.pər/", translation: "хозяйка/хозяин таверны", category: "vocabulary", example: "The tavern keeper demanded to know who Wirt was." },
+      { word: "labels", transcription: "/ˈleɪ.bəlz/", translation: "ярлыки", category: "vocabulary", example: "I don't really like labels. I'm just sort of myself." },
+      { word: "simple", transcription: "/ˈsɪm.pəl/", translation: "простодушный, слабоумный", category: "vocabulary", example: "Maybe he's simple, or just lost." },
+      { word: "make ends meet", transcription: "/meɪk endz miːt/", translation: "сводить концы с концами", category: "vocabulary", example: "I work with my hands to make ends meet." },
+      { word: "knock out", transcription: "/nɒk aʊt/", translation: "вырубить", category: "vocabulary", example: "I'll knock you out and drag you off the road." },
+      { word: "drag off", transcription: "/dræɡ ɒf/", translation: "стащить, утащить", category: "vocabulary", example: "He will drag off anyone who walks alone." },
+      { word: "lipstick", transcription: "/ˈlɪp.stɪk/", translation: "помада", category: "vocabulary", example: "The Highwayman rubs lipstick on his face." },
+      { word: "melodious", transcription: "/məˈləʊ.di.əs/", translation: "мелодичный", category: "vocabulary", example: "A melodious voice echoed through the woods." },
+      { word: "chop the wood", transcription: "/tʃɒp ðə wʊd/", translation: "рубить дрова", category: "vocabulary", example: "Chop the wood to light the fire and keep the dark away." },
+      { word: "thunderstorm", transcription: "/ˈθʌn.də.stɔːm/", translation: "гроза", category: "vocabulary", example: "We got stuck in the middle of a thunderstorm at night." },
+      { word: "arm-wrestling", transcription: "/ˈɑːm.res.lɪŋ/", translation: "армрестлинг", category: "vocabulary", example: "The patrons were arm-wrestling at the heavy wooden table." },
+      { word: "toy maker", transcription: "/tɔɪ ˈmeɪ.kər/", translation: "игрушечный мастер", category: "vocabulary", example: "The toy maker sang about his craft." },
+      { word: "witless", transcription: "/ˈwɪt.ləs/", translation: "бестолковый, глупый", category: "vocabulary", example: "Don't act like a witless simple-minded fool." },
+      { word: "simple-minded", transcription: "/ˈsɪm.pəl ˈmaɪn.dɪd/", translation: "слабоумный, простодушный", category: "vocabulary", example: "A simple-minded boy wandering in the forest." },
+      { word: "young lover", transcription: "/jʌŋ ˈlʌv.ər/", translation: "юный влюблённый", category: "vocabulary", example: "Is Wirt a young lover on a romantic quest?" },
+      { word: "calligrapher", transcription: "/kəˈlɪɡ.rə.fər/", translation: "каллиграф", category: "vocabulary", example: "A calligrapher writes letters with elegant sweeps." },
+      { word: "couture", transcription: "/kuːˈtjʊər/", translation: "кутюр, высокая мода", category: "vocabulary", example: "In fine couture of France, she looks divine." },
+      { word: "scuffs", transcription: "/skʌfs/", translation: "потёртости, царапины", category: "vocabulary", example: "Nothing courts a woman's scorn more than scuffs on the toe." },
+      { word: "cobbler", transcription: "/ˈkɒb.lər/", translation: "сапожник", category: "vocabulary", example: "The cobbler fixes shoes for travelers." },
+      { word: "patissier", transcription: "/pəˈtɪs.i.eɪ/", translation: "кондитер", category: "vocabulary", example: "The patissier prepared a cake for the wedding day." },
+      { word: "wedding day", transcription: "/ˈwed.ɪŋ deɪ/", translation: "день свадьбы", category: "vocabulary", example: "What a merry time we'll have upon your wedding day!" },
+      { word: "pointy cone", transcription: "/ˈpɔɪn.ti kəʊn/", translation: "остроконечный колпак", category: "vocabulary", example: "With that pointy cone upon your head, what are you?" },
+      { word: "good riddance", transcription: "/ɡʊd ˈrɪd.əns/", translation: "скатертью дорога", category: "vocabulary", example: "He left? Good riddance to him!" },
+      { word: "pilgrim", transcription: "/ˈpɪl.ɡrɪm/", translation: "пилигрим, паломник", category: "vocabulary", example: "I am a pilgrim on a sacred journey." },
+      { word: "sacred journey", transcription: "/ˈseɪ.krɪd ˈdʒɜː.ni/", translation: "священное странствие", category: "vocabulary", example: "A traveler on a sacred journey through the Unknown." },
+      { word: "master of your own destiny", transcription: "/ˈmɑː.stər əv jɔːr əʊn ˈdes.tɪ.ni/", translation: "хозяин своей судьбы", category: "vocabulary", example: "You must be the master of your own destiny." },
+      { word: "feats", transcription: "/fiːts/", translation: "подвиги", category: "vocabulary", example: "Regale us with tales of your brave feats!" },
+      { word: "regale", transcription: "/rɪˈɡeɪl/", translation: "развлекать рассказами", category: "vocabulary", example: "He regaled the tavern with a song." },
+      { word: "let the cat out of the bag", transcription: "/let ðə kæt aʊt əv ðə bæɡ/", translation: "выпустить кота из мешка, раскрыть секрет", category: "vocabulary", example: "Don't let the cat out of the bag yet!" },
+      { word: "lurks", transcription: "/lɜːks/", translation: "таится, поджидает", category: "vocabulary", example: "He lurks out there in the Unknown." },
+      { word: "Unknown", transcription: "/ʌnˈnəʊn/", translation: "Неведомое", category: "vocabulary", example: "Lost in the mysterious realm called the Unknown." },
+      { word: "seeking", transcription: "/ˈsiː.kɪŋ/", translation: "ища, в поисках", category: "vocabulary", example: "Seeking those who are far from home." },
+      { word: "will begins to spoil", transcription: "/wɪl bɪˈɡɪnz tə spɔɪl/", translation: "воля начинает портиться", category: "vocabulary", example: "Once your will begins to spoil, hope disappears." },
+      { word: "tree of oil", transcription: "/triː əv ɔɪl/", translation: "дерево масла", category: "vocabulary", example: "He'll turn you to a tree of oil." },
+      { word: "lantern", transcription: "/ˈlæn.tən/", translation: "фонарь", category: "vocabulary", example: "He burns the dark lantern to keep his flame alive." },
+      { word: "burn", transcription: "/bɜːn/", translation: "гореть, жечь", category: "vocabulary", example: "Use you in his lantern for to burn." },
+      { word: "Edelwood", transcription: "/ˈeɪ.dəl.wʊd/", translation: "Эдельвуд (вымышленное дерево)", category: "vocabulary", example: "The lost souls turn into Edelwood trees." },
+      { word: "compass inside your heart", transcription: "/ˈkʌm.pəs ɪnˈsaɪd jɔːr hɑːt/", translation: "компас внутри твоего сердца", category: "vocabulary", example: "Follow that compass inside your heart." },
+      { word: "never say die", transcription: "/ˈnev.ər seɪ daɪ/", translation: "никогда не сдавайся", category: "vocabulary", example: "Keep going, never say die!" },
+      { word: "halt", transcription: "/hɔːlt/", translation: "стой, остановись", category: "vocabulary", example: "Halt! Who goes there?" },
+      { word: "begone", transcription: "/bɪˈɡɒn/", translation: "убирайся, прочь", category: "vocabulary", example: "Begone, foul Beast!" },
+      { word: "violence", transcription: "/ˈvaɪə.ləns/", translation: "насилие", category: "vocabulary", example: "There is no need for violence." },
+      { word: "daughter's flame", transcription: "/ˈdɔː.təz fleɪm/", translation: "пламя дочери", category: "vocabulary", example: "Your daughter's flame will go out forever." },
+      { word: "go out", transcription: "/ɡəʊ aʊt/", translation: "погаснуть", category: "vocabulary", example: "The candle flame will go out in the wind." },
+      { word: "forever", transcription: "/fəˈrev.ər/", translation: "навсегда", category: "vocabulary", example: "Lost in the darkness forever." },
+      { word: "leave be", transcription: "/liːːv biː/", translation: "оставить в покое", category: "vocabulary", example: "Leave those children be!" },
+
+      // IDIOMS & EXPRESSIONS (BLOCK 1)
+      { word: "The Beast is upon me!", translation: "Зверь настиг меня!", category: "idioms", example: "A dramatic exclamation when feeling cornered." },
+      { word: "Way off course", translation: "Далеко в сторону, сбились с пути", category: "idioms", example: "We walked for hours and ended up way off course." },
+      { word: "Acting all bananas", translation: "Вести себя как сумасшедший", category: "idioms", example: "Why are you acting all bananas right now?" },
+      { word: "That driver is nuts", translation: "Тот кучер — псих", category: "idioms", example: "That driver is nuts, driving so fast in the dark!" },
+      { word: "Bad omen", translation: "Плохое предзнаменование", category: "idioms", example: "Hearing a raven cry at night is a bad omen." },
+      { word: "Bad luck", translation: "Плохая примета / неудача", category: "idioms", example: "Breaking a mirror brings seven years of bad luck." },
+      { word: "Curse you!", translation: "Будь ты проклята!", category: "idioms", example: "Curse you for ruining our journey!" },
+      { word: "I'm out of here", translation: "Я ухожу отсюда", category: "idioms", example: "This tavern is too scary. I'm out of here!" },
+      { word: "If you cross my path", translation: "Если ты встанешь у меня на пути", category: "idioms", example: "Beware if you cross my path in the dark forest." },
+      { word: "Good riddance!", translation: "Скатертью дорога!", category: "idioms", example: "The rude customer left. Good riddance!" },
+      { word: "Let the cat out of the bag", translation: "Выпустить кота из мешка (раскрыть секрет)", category: "idioms", example: "Wirt accidentally let the cat out of the bag." },
+      { word: "Master of your own destiny", translation: "Хозяин своей судьбы", category: "idioms", example: "Stop complaining and become the master of your own destiny." },
+      { word: "Hero of your own story", translation: "Герой своей собственной истории", category: "idioms", example: "You should be the hero of your own story!" },
+      { word: "Follow that compass inside your heart", translation: "Следуй компасу внутри своего сердца", category: "idioms", example: "When you are lost, follow that compass inside your heart." },
+      { word: "Never say die", translation: "Никогда не сдавайся", category: "idioms", example: "Keep pushing forward, never say die!" },
+      { word: "The Beast is upon you!", translation: "Зверь настиг вас!", category: "idioms", example: "Run! The Beast is upon you!" },
+      { word: "Leave those children be!", translation: "Оставь этих детей в покое!", category: "idioms", example: "The Woodsman yelled: Leave those children be!" },
+      { word: "Keep it lit", translation: "Поддерживай это горящим", category: "idioms", example: "Keep the dark lantern lit at all costs." },
+      { word: "Your daughter's flame will go out", translation: "Пламя твоей дочери погаснет", category: "idioms", example: "If the lamp dies, your daughter's flame will go out." },
+
+      // CHARACTER DESCRIPTIONS (BLOCK 2)
+      { word: "Creepy tavern", translation: "Жуткая таверна", category: "descriptions", example: "A dimly lit, creepy tavern in the forest." },
+      { word: "Witless simple-minded fool", translation: "Бестолковый слабоумный дурак", category: "descriptions", example: "They thought Wirt was just a witless simple-minded fool." },
+      { word: "Young lover", translation: "Юный влюблённый", category: "descriptions", example: "The townspeople assumed Wirt was a young lover." },
+      { word: "Pointy cone upon your head", translation: "Остроконечный колпак на твоей голове", category: "descriptions", example: "Why are you wearing that pointy cone upon your head?" },
+      { word: "The Dark Lantern", translation: "Тёмный Фонарь", category: "descriptions", example: "The mystery surrounds the power of The Dark Lantern." },
+      { word: "The Good Woman of the Woods", translation: "Добрая Женщина Леса", category: "descriptions", example: "They were searching for The Good Woman of the Woods." },
+      { word: "Adelaide of the Pasture", translation: "Аделаида Пастбищная", category: "descriptions", example: "They need to find Adelaide of the Pasture." },
+      { word: "A traveler on a sacred journey", translation: "Путешественник в священном странствии", category: "descriptions", example: "Wirt declared himself a traveler on a sacred journey." },
+      { word: "A pilgrim", translation: "Пилигрим", category: "descriptions", example: "A lonely pilgrim wandering through Unknown lands." },
+
+      // CONVERSATIONAL PHRASES (BLOCK 3)
+      { word: "Good to know", translation: "Приятно знать / полезно знать", category: "conversational", example: "The road ahead is blocked? Good to know." },
+      { word: "Who are you anyway?", translation: "Кто ты вообще такой?", category: "conversational", example: "You keep asking questions. Who are you anyway?" },
+      { word: "I don't really like labels", translation: "Я не очень люблю ярлыки", category: "conversational", example: "Don't categorize me; I don't really like labels." },
+      { word: "I'm just sort of, like, myself", translation: "Я просто вроде как сам по себе", category: "conversational", example: "I don't have a title; I'm just sort of, like, myself." },
+      { word: "Maybe he's simple", translation: "Может, он простодушный", category: "conversational", example: "Look at his hat. Maybe he's simple." },
+      { word: "What do you mean?", translation: "Что ты имеешь в виду?", category: "conversational", example: "I don't understand. What do you mean?" },
+      { word: "Forget this", translation: "Забудь об этом", category: "conversational", example: "This is taking too long. Forget this!" },
+      { word: "Just do it!", translation: "Просто сделай это!", category: "conversational", example: "Stop hesitating and just do it!" },
+      { word: "I'll do everything", translation: "Я всё сделаю", category: "conversational", example: "Don't worry, I'll do everything myself." },
+      { word: "You got it!", translation: "У тебя получится! / Будет сделано!", category: "conversational", example: "Need help? You got it!" },
+      { word: "Oh, boy", translation: "О, боже", category: "conversational", example: "Oh, boy, we are in deep trouble now." },
+      { word: "I guess I'm really doing this", translation: "Кажется, я действительно это делаю", category: "conversational", example: "Standing on stage... I guess I'm really doing this." },
+      { word: "I'm just gonna pretend", translation: "Я просто притворюсь", category: "conversational", example: "If I get nervous, I'm just gonna pretend I know what I'm doing." },
+      { word: "Nice to horse your acquaintance", translation: "Приятно познакомиться по-лошадиному", category: "conversational", example: "Fred said: Nice to horse your acquaintance!" },
+
+      // SONG LYRICS (BLOCK 4)
+      { word: "Highwayman: Work with my hands", translation: "Я работаю руками", category: "songs", example: "I make ends meet, I work with my hands!" },
+      { word: "Highwayman: Drag you off the road", translation: "Стащу тебя с дороги", category: "songs", example: "I'll knock you out, drag you off the road!" },
+      { word: "Toy Maker: Write a loving letter", translation: "Напиши любовное письмо", category: "songs", example: "Write a loving letter that swoops and sweeps and curls." },
+      { word: "Toy Maker: Fine couture of France", translation: "Изысканный кутюр из Франции", category: "songs", example: "Dressed in fine couture of France!" },
+      { word: "Toy Maker: Scuffs on the toe", translation: "Потёртости на носке", category: "songs", example: "Nothing courts a woman's scorn more than scuffs on the toe." },
+      { word: "Tavern Lady: Lurks out there in the Unknown", translation: "Таится там, в Неведомом", category: "songs", example: "He lurks out there in the Unknown, seeking those far from home." },
+      { word: "Tavern Lady: Tree of oil", translation: "Дерево масла", category: "songs", example: "He'll turn you to a tree of oil and use you in his lantern." },
+
+      // ATMOSPHERIC & CREEPY (BLOCK 5)
+      { word: "A melodious voice from the woods", translation: "Мелодичный голос из леса", category: "creepy", example: "They heard a melodious voice from the woods." },
+      { word: "Chop the wood to light the fire", translation: "Руби дрова, чтобы зажечь огонь", category: "creepy", example: "Chop the wood to light the fire, keep the shadows away." },
+      { word: "'Tisn't much that I require", translation: "Немногого мне нужно", category: "creepy", example: "'Tisn't much that I require, just a little oil." },
+      { word: "In the middle of a thunderstorm at night", translation: "Посреди грозы ночью", category: "creepy", example: "Stuck in the forest in the middle of a thunderstorm at night." },
+      { word: "Running out of oil", translation: "Заканчивается масло", category: "creepy", example: "The lantern is running out of oil!" },
+      { word: "No need for violence", translation: "Нет нужды в насилии", category: "creepy", example: "Calm down, there is no need for violence." },
+      { word: "Laughing evilly", translation: "Зловеще смеясь", category: "creepy", example: "The shadow stood in the dark, laughing evilly." },
+
+      // RARE & BEAUTIFUL WORDS (BLOCK 6)
+      { word: "pastoral", translation: "пасторальный, сельский", category: "rare", example: "A peaceful pastoral landscape with rolling hills." },
+      { word: "ominous", translation: "зловещий", category: "rare", example: "An ominous silence fell over the dark forest." },
+      { word: "scorn", translation: "презрение", category: "rare", example: "She looked at his scuffed shoes with scorn." },
+      { word: "spoil", translation: "портиться", category: "rare", example: "When your hope decays, your will begins to spoil." },
+      { word: "flame", translation: "пламя", category: "rare", example: "Guard the flame of the dark lantern carefully." }
+    ];
+
+    // PRESENTATION SLIDES CONFIGURATION (18 SLIDES)
+    const slidesData = [
+      // SLIDE 1
+      {
+        id: 1,
+        title: "Chapter 4: Songs of the Dark Lantern",
+        subtitle: "English Speaking Club • Over the Garden Wall",
+        icon: "🎃",
+        teacherNotes: "Warm-up activity: Ask students if they have watched Over the Garden Wall. Discuss the atmospheric autumn mood, dark fairy tales, and mysterious taverns.",
+        content: `
+          <div class="text-center space-y-6 py-4">
+            <div class="inline-block p-4 rounded-full bg-amber-500/10 border-2 border-amber-500/40 mb-2">
+              <span class="text-6xl">🏮</span>
+            </div>
+            <h2 class="font-vintage text-3xl sm:text-5xl font-extrabold text-amber-500 tracking-wider">
+              SONGS OF THE DARK LANTERN
+            </h2>
+            <p class="font-story text-xl text-amber-200 max-w-2xl mx-auto leading-relaxed">
+              "Into the Unknown, where lost souls wander and tavern folk sing of destiny, bad omens, and the Beast that lurks in the shadows..."
+            </p>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-3xl mx-auto pt-4 text-left">
+              <div class="bg-otgw-bg p-4 rounded-xl border border-otgw-border">
+                <span class="text-amber-500 font-bold block mb-1">🎯 Goal</span>
+                <span class="text-xs text-otgw-muted">Master 60+ idioms, expressions, and dramatic vocabulary from Ep 4.</span>
+              </div>
+              <div class="bg-otgw-bg p-4 rounded-xl border border-otgw-border">
+                <span class="text-amber-500 font-bold block mb-1">🗣 Practice</span>
+                <span class="text-xs text-otgw-muted">Character roleplays, song analysis, identity debate, and dark storytelling.</span>
+              </div>
+              <div class="bg-otgw-bg p-4 rounded-xl border border-otgw-border">
+                <span class="text-amber-500 font-bold block mb-1">🌲 Vibe</span>
+                <span class="text-xs text-otgw-muted">Autumnal, pastoral, creepy, melodious, and mysteriously theatrical.</span>
+              </div>
+            </div>
+
+            <div class="pt-2">
+              <span class="inline-block px-4 py-2 rounded-full bg-amber-950 text-amber-300 border border-amber-700/50 text-xs font-semibold uppercase tracking-widest">
+                Press 'Next' or Use Arrow Keys ← → to Begin
+              </span>
+            </div>
+          </div>
+        `
+      },
+
+      // SLIDE 2
+      {
+        id: 2,
+        title: "Lost in the Storm: The Journey Begins",
+        subtitle: "Plot Context & Setting the Scene",
+        icon: "⚡",
+        teacherNotes: "Have students read the context dialogue aloud. Check understanding of 'carriage driver', 'nuts', 'off course', and 'bananas'.",
+        content: `
+          <div class="space-y-6">
+            <div class="bg-otgw-bg/80 p-5 rounded-xl border border-otgw-border flex flex-col md:flex-row gap-6 items-center">
+              <div class="text-center md:text-left space-y-2 flex-1">
+                <span class="text-xs font-bold text-amber-500 uppercase tracking-widest">Episode Background</span>
+                <h3 class="font-vintage text-xl text-amber-300 font-bold">Stranded in a Thunderstorm</h3>
+                <p class="text-sm text-amber-100/90 leading-relaxed font-story text-base">
+                  Wirt, Greg, and Beatrice are stranded in the forest during a terrible <span class="text-amber-400 font-bold">thunderstorm</span> with bright flashes of <span class="text-amber-400 font-bold">lightning</span>. Their crazy carriage driver left them behind in a wet <span class="text-amber-400 font-bold">hay pile</span>!
+                </p>
+              </div>
+              <div class="w-full md:w-64 bg-otgw-card p-4 rounded-lg border border-amber-900/50 space-y-2 text-xs">
+                <div class="font-bold text-amber-400 border-b border-amber-900 pb-1">🔑 Key Expressions</div>
+                <div>⚡ <strong class="text-amber-300">carriage driver</strong> - кучер</div>
+                <div>🌾 <strong class="text-amber-300">hay pile</strong> - стог сена</div>
+                <div>🌩 <strong class="text-amber-300">thunderstorm / lightning</strong> - гроза / молния</div>
+                <div>🐴 <strong class="text-amber-300">whinny</strong> - ржать (о лошади)</div>
+              </div>
+            </div>
+
+            <!-- Speaking Challenge -->
+            <div class="bg-amber-950/30 p-5 rounded-xl border border-amber-700/40 space-y-3">
+              <h4 class="font-vintage text-amber-400 text-sm font-bold flex items-center gap-2">
+                🗣 Speaking Warm-Up: Quote Practice
+              </h4>
+              <p class="text-xs text-otgw-muted">Read these lines with emotion and practice using informal slang:</p>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm font-story italic">
+                <div class="p-3 bg-otgw-bg rounded-lg border border-otgw-border">
+                  "That <strong class="text-amber-400">carriage driver is nuts</strong>! We are <strong class="text-amber-400">way off course</strong>!"
+                  <div class="not-italic text-xs text-amber-500/80 mt-1">— Expressing panic / lost directions</div>
+                </div>
+                <div class="p-3 bg-otgw-bg rounded-lg border border-otgw-border">
+                  "Why are you <strong class="text-amber-400">acting all bananas</strong>? It's just a little rain!"
+                  <div class="not-italic text-xs text-amber-500/80 mt-1">— Calling someone crazy / irrational</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        `
+      },
+
+      // SLIDE 3
+      {
+        id: 3,
+        title: "Approaching the J.T. Tavern",
+        subtitle: "Atmosphere, Superstitions & Bad Omens",
+        icon: "🏚",
+        teacherNotes: "Focus on tone and creepy adjectives. Ask students: 'What makes a place creepy? Do you believe in bad omens?'",
+        content: `
+          <div class="space-y-5">
+            <p class="font-story text-lg text-amber-200">
+              Seeking shelter from the rain, the trio spots a warm glow in the distance: a mysterious medieval inn known as the <strong>J.T. Tavern</strong>. But inside, something feels unsettling...
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <!-- Card 1 -->
+              <div class="bg-otgw-bg p-4 rounded-xl border border-otgw-border space-y-2">
+                <span class="text-2xl">🐈‍⬛</span>
+                <h4 class="font-vintage text-amber-400 font-bold">Omens & Superstitions</h4>
+                <ul class="text-xs space-y-1.5 text-otgw-parchment">
+                  <li>• <strong class="text-amber-300">creepy tavern</strong> — жуткая таверна</li>
+                  <li>• <strong class="text-amber-300">bad omen</strong> — плохое предзнаменование</li>
+                  <li>• <strong class="text-amber-300">bad luck</strong> — плохая примета, неудача</li>
+                  <li>• <strong class="text-amber-300">curse / Curse you!</strong> — проклятие / Будь ты проклят!</li>
+                </ul>
+              </div>
+
+              <!-- Card 2 -->
+              <div class="bg-otgw-bg p-4 rounded-xl border border-otgw-border space-y-2">
+                <span class="text-2xl">🚪</span>
+                <h4 class="font-vintage text-amber-400 font-bold">Escape Reactions</h4>
+                <p class="text-xs text-amber-200/90 leading-relaxed font-story">
+                  When things turn ominous, how do characters react?
+                </p>
+                <div class="p-3 bg-amber-950/40 rounded-lg border border-amber-800/50 text-xs text-amber-300 font-semibold">
+                  "This place gives me bad vibes... <span class="text-amber-400 font-bold">I'm out of here!</span>"
+                </div>
+              </div>
+            </div>
+
+            <!-- Interactive Speaking Prompt -->
+            <div class="bg-otgw-darkgreen/40 p-4 rounded-xl border border-emerald-800/50 space-y-2">
+              <span class="text-xs font-bold text-emerald-400 uppercase tracking-wider">💬 Group Discussion Prompt</span>
+              <p class="text-sm font-story text-emerald-100">
+                1. Have you ever entered a place that felt <strong>creepy</strong> or gave you a <strong>bad omen</strong>?<br>
+                2. If you were stuck in a dark woods at night, would you enter a strange tavern or stay in the woods?
+              </p>
+            </div>
+          </div>
+        `
+      },
+
+      // SLIDE 4
+      {
+        id: 4,
+        title: "The Tavern Folks & Their Professions (Part 1)",
+        subtitle: "Medieval Trades, Roles & Social Labels",
+        icon: "🍻",
+        teacherNotes: "Practice medieval professions. Highlight how everyone in the tavern has a clear label and social job.",
+        content: `
+          <div class="space-y-5">
+            <p class="font-story text-amber-200">
+              Inside the tavern, every patron has a fixed role in society. The <strong>tavern keeper</strong> demands to know everyone's identity!
+            </p>
+
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+              <div class="p-3 bg-otgw-bg rounded-xl border border-otgw-border text-center space-y-1">
+                <div class="text-2xl">🥩</div>
+                <div class="font-bold text-amber-400 text-sm">butcher</div>
+                <div class="text-xs text-otgw-muted">мясник</div>
+              </div>
+
+              <div class="p-3 bg-otgw-bg rounded-xl border border-otgw-border text-center space-y-1">
+                <div class="text-2xl">🥖</div>
+                <div class="font-bold text-amber-400 text-sm">baker</div>
+                <div class="text-xs text-otgw-muted">пекарь</div>
+              </div>
+
+              <div class="p-3 bg-otgw-bg rounded-xl border border-otgw-border text-center space-y-1">
+                <div class="text-2xl">👶</div>
+                <div class="font-bold text-amber-400 text-sm">midwife</div>
+                <div class="text-xs text-otgw-muted">повитуха, акушерка</div>
+              </div>
+
+              <div class="p-3 bg-otgw-bg rounded-xl border border-otgw-border text-center space-y-1">
+                <div class="text-2xl">🧵</div>
+                <div class="font-bold text-amber-400 text-sm">tailor</div>
+                <div class="text-xs text-otgw-muted">портной</div>
+              </div>
+
+              <div class="p-3 bg-otgw-bg rounded-xl border border-otgw-border text-center space-y-1">
+                <div class="text-2xl">🔨</div>
+                <div class="font-bold text-amber-400 text-sm">apprentice</div>
+                <div class="text-xs text-otgw-muted">подмастерье</div>
+              </div>
+
+              <div class="p-3 bg-otgw-bg rounded-xl border border-otgw-border text-center space-y-1">
+                <div class="text-2xl">👞</div>
+                <div class="font-bold text-amber-400 text-sm">cobbler</div>
+                <div class="text-xs text-otgw-muted">сапожник</div>
+              </div>
+
+              <div class="p-3 bg-otgw-bg rounded-xl border border-otgw-border text-center space-y-1">
+                <div class="text-2xl">🍰</div>
+                <div class="font-bold text-amber-400 text-sm">patissier</div>
+                <div class="text-xs text-otgw-muted">кондитер</div>
+              </div>
+
+              <div class="p-3 bg-otgw-bg rounded-xl border border-otgw-border text-center space-y-1">
+                <div class="text-2xl">🍺</div>
+                <div class="font-bold text-amber-400 text-sm">tavern keeper</div>
+                <div class="text-xs text-otgw-muted">хозяйка таверны</div>
+              </div>
+            </div>
+
+            <div class="p-4 bg-amber-950/40 rounded-xl border border-amber-800/50">
+              <div class="text-xs font-bold text-amber-400 uppercase tracking-widest mb-1">Vocabulary Focus</div>
+              <p class="text-xs sm:text-sm text-amber-200 font-story">
+                In the Unknown, everyone defines themselves by what they <em>do</em>. But Wirt refuses to fit into these traditional <strong>labels</strong>!
+              </p>
+            </div>
+          </div>
+        `
+      },
+
+      // SLIDE 5
+      {
+        id: 5,
+        title: "The Tavern Folks (Part 2): Artisans & Romantics",
+        subtitle: "High Fashion, Crafts & Pointy Cones",
+        icon: "🎨",
+        teacherNotes: "Explain words like 'couture', 'calligrapher', and 'pointy cone'. Have students pronounce '/kuːˈtjʊər/' and '/kəˈlɪɡ.rə.fər/'.",
+        content: `
+          <div class="space-y-5">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+              
+              <div class="bg-otgw-bg p-4 rounded-xl border border-otgw-border space-y-2">
+                <div class="text-2xl">🧸</div>
+                <h4 class="font-vintage text-amber-400 font-bold text-sm">The Toy Maker</h4>
+                <p class="text-xs text-otgw-muted">Creates toys, wooden crafts, and sings cheerful songs for children.</p>
+                <div class="text-xs text-amber-300 font-mono">toy maker /tɔɪ ˈmeɪ.kər/</div>
+              </div>
+
+              <div class="bg-otgw-bg p-4 rounded-xl border border-otgw-border space-y-2">
+                <div class="text-2xl">✒️</div>
+                <h4 class="font-vintage text-amber-400 font-bold text-sm">The Calligrapher</h4>
+                <p class="text-xs text-otgw-muted">Writes loving letters with flourishes that "swoop, sweep, and curl".</p>
+                <div class="text-xs text-amber-300 font-mono">calligrapher /kəˈlɪɡ.rə.fər/</div>
+              </div>
+
+              <div class="bg-otgw-bg p-4 rounded-xl border border-otgw-border space-y-2">
+                <div class="text-2xl">💃</div>
+                <h4 class="font-vintage text-amber-400 font-bold text-sm">High Fashion & Couture</h4>
+                <p class="text-xs text-otgw-muted">High fashion clothing from Paris (<strong class="text-amber-300">couture</strong>).</p>
+                <div class="text-xs text-amber-300 font-mono">couture /kuːˈtjʊər/</div>
+              </div>
+
+            </div>
+
+            <!-- Spotlight: Wirt's Outfit -->
+            <div class="bg-otgw-card p-4 rounded-xl border border-amber-800/60 flex flex-col sm:flex-row items-center gap-4">
+              <div class="text-4xl">🔺</div>
+              <div class="space-y-1 text-center sm:text-left">
+                <h4 class="font-vintage text-amber-300 font-bold">"What is that pointy cone upon your head?"</h4>
+                <p class="text-xs text-amber-100/90 font-story">
+                  The patrons stare at Wirt's bizarre hat. A <strong class="text-amber-400">pointy cone</strong> makes him look like a total stranger or a <strong class="text-amber-400">young lover</strong> lost in thought!
+                </p>
+              </div>
+            </div>
+          </div>
+        `
+      },
+
+      // SLIDE 6
+      {
+        id: 6,
+        title: "Speaking Practice: 'I Don't Really Like Labels'",
+        subtitle: "Expressing Identity & Conversational Reactions",
+        icon: "🗣",
+        teacherNotes: "Pair students up. Student A asks 'Who are you anyway?' and Student B responds using phrase #32 or #33. Practice natural intonation.",
+        content: `
+          <div class="space-y-5">
+            <div class="bg-amber-950/40 p-4 rounded-xl border border-amber-700/50">
+              <h3 class="font-vintage text-amber-400 text-base font-bold mb-2">💬 Key Conversational Block (Block 3)</h3>
+              <p class="text-xs text-amber-200">Master these authentic spoken responses when someone questions your job or role:</p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
+              <div class="p-3 bg-otgw-bg rounded-lg border border-otgw-border flex items-start gap-3">
+                <span class="text-amber-500 font-bold">1.</span>
+                <div>
+                  <div class="font-bold text-amber-300">"Who are you anyway?"</div>
+                  <div class="text-xs text-otgw-muted">Кто ты вообще такой?</div>
+                </div>
+              </div>
+
+              <div class="p-3 bg-otgw-bg rounded-lg border border-otgw-border flex items-start gap-3">
+                <span class="text-amber-500 font-bold">2.</span>
+                <div>
+                  <div class="font-bold text-amber-300">"I don't really like labels."</div>
+                  <div class="text-xs text-otgw-muted">Я не очень люблю ярлыки.</div>
+                </div>
+              </div>
+
+              <div class="p-3 bg-otgw-bg rounded-lg border border-otgw-border flex items-start gap-3">
+                <span class="text-amber-500 font-bold">3.</span>
+                <div>
+                  <div class="font-bold text-amber-300">"I'm just sort of, like, myself."</div>
+                  <div class="text-xs text-otgw-muted">Я просто вроде как сам по себе.</div>
+                </div>
+              </div>
+
+              <div class="p-3 bg-otgw-bg rounded-lg border border-otgw-border flex items-start gap-3">
+                <span class="text-amber-500 font-bold">4.</span>
+                <div>
+                  <div class="font-bold text-amber-300">"Maybe he's simple..."</div>
+                  <div class="text-xs text-otgw-muted">Может, он простодушный...</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Roleplay Exercise -->
+            <div class="bg-otgw-darkgreen/40 p-4 rounded-xl border border-emerald-800/50 space-y-2">
+              <span class="text-xs font-bold text-emerald-400 uppercase tracking-wider">🎭 Quick Pair Roleplay</span>
+              <p class="text-xs sm:text-sm text-emerald-100 font-story">
+                <strong>Partner A (Tavern Keeper):</strong> Point at Partner B and ask: <em>"Who are you anyway? What is your trade?"</em><br>
+                <strong>Partner B (Wirt):</strong> Shyly reply: <em>"Well, I don't really like labels... I'm just sort of, like, myself."</em><br>
+                <strong>Partner A:</strong> Nod and say: <em>"Good to know! What do you mean?"</em>
+              </p>
+            </div>
+          </div>
+        `
+      },
+
+      // SLIDE 7
+      {
+        id: 7,
+        title: "Song Breakdown: The Highwayman",
+        subtitle: "Scoundrels, Arm-Wrestling & Making Ends Meet",
+        icon: "🗡",
+        teacherNotes: "Have a student read the Highwayman's lyrics dramatically. Explain 'make ends meet', 'knock out', and 'drag off'.",
+        content: `
+          <div class="space-y-5">
+            <div class="bg-otgw-bg p-5 rounded-xl border border-otgw-border flex flex-col md:flex-row gap-5 items-center">
+              <div class="text-4xl text-center md:text-left">🔪</div>
+              <div class="space-y-2 flex-1">
+                <h3 class="font-vintage text-amber-400 text-lg font-bold">"I'm the Highwayman!"</h3>
+                <p class="text-xs text-amber-100 font-story leading-relaxed">
+                  A dangerous robber steps out from the shadows of the tavern. While men are <strong class="text-amber-300">arm-wrestling</strong>, he sings his terrifying theme song while putting on <strong class="text-amber-300">lipstick</strong>!
+                </p>
+              </div>
+            </div>
+
+            <!-- Lyrics & Idioms -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div class="bg-amber-950/30 p-4 rounded-xl border border-amber-800/50 space-y-2 font-story">
+                <span class="text-xs font-bold text-amber-400 uppercase font-sans tracking-wider">🎵 Highwayman's Song Lyrics</span>
+                <p class="text-xs sm:text-sm text-amber-200 italic leading-relaxed">
+                  "I make ends meet, I work with my hands.<br>
+                  I'll knock you out, drag you off the road,<br>
+                  Steal your shoes from off your feet!"
+                </p>
+              </div>
+
+              <div class="bg-otgw-card p-4 rounded-xl border border-otgw-border space-y-2">
+                <span class="text-xs font-bold text-amber-400 uppercase tracking-wider">💡 Vocabulary Breakdown</span>
+                <ul class="text-xs space-y-1 text-amber-100">
+                  <li>• <strong class="text-amber-300">highwayman</strong> — разбойник с большой дороги</li>
+                  <li>• <strong class="text-amber-300">make ends meet</strong> — сводить концы с концами</li>
+                  <li>• <strong class="text-amber-300">knock out</strong> — вырубить / нокаутировать</li>
+                  <li>• <strong class="text-amber-300">drag off</strong> — стащить, утащить с дороги</li>
+                  <li>• <strong class="text-amber-300">lipstick</strong> — помада</li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- Practice Threat -->
+            <div class="p-3 bg-red-950/30 border border-red-900/50 rounded-lg text-xs text-red-200">
+              ⚠️ <strong>Warning Phrase:</strong> <em>"If you cross my path, I'll knock you out!"</em> (Если ты встанешь у меня на пути...)
+            </div>
+          </div>
+        `
+      },
+
+      // SLIDE 8
+      {
+        id: 8,
+        title: "Song Breakdown: The Toy Maker & Romance",
+        subtitle: "Couture, Love Letters & Scuffs on the Toe",
+        icon: "💌",
+        teacherNotes: "Explore the comedic song about courting women and shoe care. Discuss the phrase 'Nothing courts a woman's scorn...'",
+        content: `
+          <div class="space-y-5">
+            <p class="font-story text-amber-200">
+              The tavern patrons decide Wirt must be a <strong>young lover</strong> seeking his sweetheart! The Toy Maker sings a romantic song of advice:
+            </p>
+
+            <div class="bg-amber-950/20 p-5 rounded-xl border border-amber-700/40 space-y-3 font-story">
+              <span class="text-xs font-bold text-amber-400 uppercase font-sans tracking-wider">🎵 The Toy Maker's Romance Lyrics</span>
+              <p class="text-sm text-amber-200 italic leading-relaxed">
+                "Write a loving letter that <strong class="text-amber-400">swoops and sweeps and curls</strong>,<br>
+                In fine <strong class="text-amber-400">couture of France</strong>!<br>
+                Nothing courts a woman's <strong class="text-amber-400">scorn</strong> more than <strong class="text-amber-400">scuffs</strong> on the toe...<br>
+                What a merry time we'll have upon your <strong class="text-amber-400">wedding day</strong>!"
+              </p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+              <div class="p-3 bg-otgw-bg rounded-lg border border-otgw-border">
+                <span class="font-bold text-amber-300 block mb-0.5">scorn /skɔːn/</span>
+                <span class="text-otgw-muted">презрение, пренебрежение</span>
+              </div>
+              <div class="p-3 bg-otgw-bg rounded-lg border border-otgw-border">
+                <span class="font-bold text-amber-300 block mb-0.5">scuffs /skʌfs/</span>
+                <span class="text-otgw-muted">потёртости, царапины на обуви</span>
+              </div>
+              <div class="p-3 bg-otgw-bg rounded-lg border border-otgw-border">
+                <span class="font-bold text-amber-300 block mb-0.5">wedding day</span>
+                <span class="text-otgw-muted">день свадьбы</span>
+              </div>
+            </div>
+
+            <div class="bg-otgw-darkgreen/40 p-4 rounded-xl border border-emerald-800/50 text-xs text-emerald-100">
+              💬 <strong>Discussion:</strong> Do you agree with the Toy Maker? What is worse in high fashion: <em>scuffs on your shoes</em> or <em>wearing a pointy cone hat</em>?
+            </div>
+          </div>
+        `
+      },
+
+      // SLIDE 9
+      {
+        id: 9,
+        title: "Wirt's Identity Crisis & 'The Pilgrim'",
+        subtitle: "Sacred Journeys, Feats & Destiny",
+        icon: "🧭",
+        teacherNotes: "Focus on Wirt taking the stage. Practice the inspirational phrases: 'Master of your own destiny' and 'Hero of your own story'.",
+        content: `
+          <div class="space-y-5">
+            <p class="font-story text-amber-200">
+              Forced onto the stage to sing, Wirt struggles to find his true identity. He rejects being a lover and calls himself a <strong>pilgrim</strong>!
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <!-- Identity Box -->
+              <div class="bg-otgw-bg p-4 rounded-xl border border-otgw-border space-y-2">
+                <span class="text-xs font-bold text-amber-400 uppercase tracking-wider">🌟 Grand Titles</span>
+                <ul class="text-xs space-y-1.5 text-amber-100">
+                  <li>• <strong class="text-amber-300">A pilgrim</strong> — пилигрим, паломник</li>
+                  <li>• <strong class="text-amber-300">A traveler on a sacred journey</strong> — путешественник в священном странствии</li>
+                  <li>• <strong class="text-amber-300">Master of your own destiny</strong> — хозяин своей судьбы</li>
+                  <li>• <strong class="text-amber-300">Hero of your own story</strong> — герой своей собственной истории</li>
+                  <li>• <strong class="text-amber-300">Regale with feats</strong> — развлекать рассказами о подвигах</li>
+                </ul>
+              </div>
+
+              <!-- Internal Monologue Box -->
+              <div class="bg-amber-950/40 p-4 rounded-xl border border-amber-800/50 space-y-2">
+                <span class="text-xs font-bold text-amber-400 uppercase tracking-wider">💭 Wirt's Nervous Self-Talk</span>
+                <div class="space-y-1.5 text-xs text-amber-200 font-story italic">
+                  <p>"Oh, boy... <strong class="text-amber-400">I guess I'm really doing this</strong>."</p>
+                  <p>"<strong class="text-amber-400">I'm just gonna pretend</strong> I know what I'm singing!"</p>
+                  <p>"Forget this! <strong class="text-amber-400">Just do it!</strong>"</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Speaking Challenge -->
+            <div class="bg-otgw-card p-4 rounded-xl border border-amber-700/50 text-center space-y-2">
+              <span class="text-xs font-bold text-amber-400 uppercase">✨ Motivational Speaking Prompt</span>
+              <p class="text-xs sm:text-sm text-amber-100 font-story">
+                Finish this sentence out loud: <em>"To become the master of my own destiny, I need to..."</em>
+              </p>
+            </div>
+          </div>
+        `
+      },
+
+      // SLIDE 10
+      {
+        id: 10,
+        title: "Fred the Horse & Horse Humor",
+        subtitle: "Punny Introductions & Willing Helpers",
+        icon: "🐴",
+        teacherNotes: "Explain Fred's horse pun: 'Nice to horse your acquaintance!'. Have students invent their own silly animal puns.",
+        content: `
+          <div class="space-y-5">
+            <div class="bg-otgw-bg p-5 rounded-xl border border-otgw-border flex flex-col sm:flex-row items-center gap-5">
+              <div class="text-5xl text-center">🐴</div>
+              <div class="space-y-2 flex-1">
+                <h3 class="font-vintage text-amber-400 text-lg font-bold">Fred the Talking Horse</h3>
+                <p class="text-xs text-amber-100 font-story leading-relaxed">
+                  While Wirt sings, Beatrice and Fred the Horse search the tavern stables. Fred shocks everyone when he suddenly speaks human language!
+                </p>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <!-- Pun Card -->
+              <div class="bg-amber-950/30 p-4 rounded-xl border border-amber-800/50 space-y-2">
+                <span class="text-xs font-bold text-amber-400 uppercase tracking-wider">🐴 Horse Greeting Pun</span>
+                <div class="p-3 bg-otgw-bg rounded-lg border border-otgw-border text-sm font-story font-bold text-amber-300">
+                  "Nice to horse your acquaintance!"
+                </div>
+                <p class="text-xs text-otgw-muted">
+                  A pun on <em>"Nice to make your acquaintance"</em> (Приятно познакомиться по-лошадиному).
+                </p>
+              </div>
+
+              <!-- Responses -->
+              <div class="bg-otgw-card p-4 rounded-xl border border-otgw-border space-y-2">
+                <span class="text-xs font-bold text-amber-400 uppercase tracking-wider">💬 Helpful Conversational Responses</span>
+                <ul class="text-xs space-y-2 text-amber-100">
+                  <li>• <strong class="text-amber-300">"You got it!"</strong> — У тебя получится! / Будет сделано!</li>
+                  <li>• <strong class="text-amber-300">"I'll do everything!"</strong> — Я всё сделаю!</li>
+                  <li>• <strong class="text-amber-300">"Oh, boy..."</strong> — О, боже...</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        `
+      },
+
+      // SLIDE 11
+      {
+        id: 11,
+        title: "The Tavern Lady's Warning: Song of the Beast",
+        subtitle: "Edelwood Trees, Dark Lanterns & Lost Wills",
+        icon: "🌲",
+        teacherNotes: "This is the most atmospheric song. Break down the poetry: 'will begins to spoil', 'tree of oil', 'Edelwood'.",
+        content: `
+          <div class="space-y-5">
+            <p class="font-story text-amber-200">
+              When Wirt mentions they are looking for the Woodsman, the <strong>Tavern Keeper</strong> gasps in horror! She warns them about the true nature of the Beast:
+            </p>
+
+            <div class="bg-amber-950/40 p-5 rounded-xl border border-amber-700/60 font-story space-y-3">
+              <span class="text-xs font-bold text-amber-400 uppercase font-sans tracking-wider">🎵 The Tavern Lady's Dark Warning</span>
+              <p class="text-xs sm:text-sm text-amber-100 italic leading-relaxed">
+                "He <strong class="text-amber-400">lurks</strong> out there in the <strong class="text-amber-400">Unknown</strong>, <strong class="text-amber-400">seeking</strong> those who are far from home...<br>
+                Hoping never to let you return. Better beware, don't believe his lies!<br>
+                For once your <strong class="text-amber-400">will begins to spoil</strong>, he'll turn you to a <strong class="text-amber-400">tree of oil</strong>,<br>
+                And use you in his <strong class="text-amber-400">lantern</strong> for to <strong class="text-amber-400">burn</strong>!"
+              </p>
+            </div>
+
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
+              <div class="p-2.5 bg-otgw-bg rounded-lg border border-otgw-border">
+                <strong class="text-amber-300 block">lurks /lɜːks/</strong>
+                <span class="text-otgw-muted">таится, поджидает</span>
+              </div>
+              <div class="p-2.5 bg-otgw-bg rounded-lg border border-otgw-border">
+                <strong class="text-amber-300 block">will begins to spoil</strong>
+                <span class="text-otgw-muted">воля начинает портиться</span>
+              </div>
+              <div class="p-2.5 bg-otgw-bg rounded-lg border border-otgw-border">
+                <strong class="text-amber-300 block">tree of oil</strong>
+                <span class="text-otgw-muted">дерево масла</span>
+              </div>
+              <div class="p-2.5 bg-otgw-bg rounded-lg border border-otgw-border">
+                <strong class="text-amber-300 block">Edelwood</strong>
+                <span class="text-otgw-muted">Эдельвуд (дерево душ)</span>
+              </div>
+            </div>
+          </div>
+        `
+      },
+
+      // SLIDE 12
+      {
+        id: 12,
+        title: "Encountering the Woodsman",
+        subtitle: "Wood Chopping, Melodious Voices & Oil Scarcity",
+        icon: "🪓",
+        teacherNotes: "Discuss the Woodsman's tragic role. Practice reading the Woodsman's chant: 'Chop the wood to light the fire...'",
+        content: `
+          <div class="space-y-5">
+            <p class="font-story text-amber-200">
+              The tavern patrons mistake the Woodsman for the Beast! Outside, they hear a mysterious sound in the thunderstorm...
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <!-- Card 1 -->
+              <div class="bg-otgw-bg p-4 rounded-xl border border-otgw-border space-y-2">
+                <span class="text-xs font-bold text-amber-400 uppercase tracking-wider">🪓 The Woodsman's Chant</span>
+                <p class="text-xs sm:text-sm text-amber-200 font-story italic leading-relaxed">
+                  "<strong class="text-amber-400">Chop the wood</strong> to light the fire,<br>
+                  'Tisn't much that I require..."
+                </p>
+                <div class="text-xs text-otgw-muted border-t border-otgw-border pt-2 mt-2">
+                  • <strong class="text-amber-300">chop the wood</strong> — рубить дрова<br>
+                  • <strong class="text-amber-300">'Tisn't much</strong> — Немногого (мне нужно)
+                </div>
+              </div>
+
+              <!-- Card 2 -->
+              <div class="bg-amber-950/40 p-4 rounded-xl border border-amber-800/50 space-y-2">
+                <span class="text-xs font-bold text-amber-400 uppercase tracking-wider">🌑 Dark Secrets</span>
+                <ul class="text-xs space-y-2 text-amber-100">
+                  <li>• <strong class="text-amber-300">A melodious voice from the woods</strong> — Мелодичный голос из леса</li>
+                  <li>• <strong class="text-amber-300">Running out of oil</strong> — Заканчивается масло в фонаре</li>
+                  <li>• <strong class="text-amber-300">The Beast is upon me!</strong> — Зверь настиг меня!</li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- Warning Box -->
+            <div class="p-3 bg-red-950/40 border border-red-800/60 rounded-xl text-xs text-red-200 flex items-center gap-3">
+              <span class="text-2xl">⚠️</span>
+              <div>
+                <strong>Dramatic Exclamation:</strong> <em>"The Beast is upon you!"</em> (Зверь настиг вас!) Use this phrase when danger is right behind you!
+              </div>
+            </div>
+          </div>
+        `
+      },
+
+      // SLIDE 13
+      {
+        id: 13,
+        title: "The Climax & The Dark Lantern",
+        subtitle: "Confrontation, Daughter's Flame & Demands",
+        icon: "🔥",
+        teacherNotes: "Analyze the climax. Explain 'Begone!', 'Halt!', 'Leave those children be!', and 'daughter's flame'.",
+        content: `
+          <div class="space-y-5">
+            <p class="font-story text-amber-200">
+              The tavern patrons swarm outside to attack the Woodsman. But the Woodsman defends the children and guards his precious lantern!
+            </p>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div class="p-3 bg-otgw-bg rounded-lg border border-otgw-border">
+                <div class="font-bold text-amber-300 text-sm">"Halt! Begone!"</div>
+                <div class="text-xs text-otgw-muted">Стой! Убирайся прочь!</div>
+              </div>
+
+              <div class="p-3 bg-otgw-bg rounded-lg border border-otgw-border">
+                <div class="font-bold text-amber-300 text-sm">"No need for violence!"</div>
+                <div class="text-xs text-otgw-muted">Нет нужды в насилии!</div>
+              </div>
+
+              <div class="p-3 bg-otgw-bg rounded-lg border border-otgw-border">
+                <div class="font-bold text-amber-300 text-sm">"Leave those children be!"</div>
+                <div class="text-xs text-otgw-muted">Оставь этих детей в покое!</div>
+              </div>
+
+              <div class="p-3 bg-otgw-bg rounded-lg border border-otgw-border">
+                <div class="font-bold text-amber-300 text-sm">"Keep it lit!"</div>
+                <div class="text-xs text-otgw-muted">Поддерживай lantern горящим!</div>
+              </div>
+            </div>
+
+            <!-- Climax Quote -->
+            <div class="bg-amber-950/60 p-4 rounded-xl border border-amber-600/60 text-center space-y-2 font-story">
+              <span class="text-xs font-bold font-sans text-amber-400 uppercase tracking-widest">🔥 High Stakes Threat</span>
+              <p class="text-sm sm:text-base text-amber-100 italic">
+                "If the flame dies, <strong class="text-amber-400">your daughter's flame will go out... forever</strong>!"
+              </p>
+              <div class="text-xs text-amber-300/80 not-italic font-sans">
+                (daughter's flame / go out / forever / leave be)
+              </div>
+            </div>
+          </div>
+        `
+      },
+
+      // SLIDE 14
+      {
+        id: 14,
+        title: "Idioms & Fixed Expressions Review",
+        subtitle: "Match & Context Practice (Block 1 Focus)",
+        icon: "🧠",
+        teacherNotes: "Interactive review slide! Ask students to match the left English idiom with the correct right translation.",
+        content: `
+          <div class="space-y-4">
+            <p class="font-story text-sm text-amber-200">
+              Test your memory! Match the idiomatic phrases with their Russian translations:
+            </p>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+              <div class="p-3 bg-otgw-bg rounded-xl border border-otgw-border space-y-2">
+                <div class="font-bold text-amber-400 border-b border-otgw-border pb-1">English Idioms</div>
+                <p>1. <strong class="text-amber-300">Let the cat out of the bag</strong></p>
+                <p>2. <strong class="text-amber-300">Follow that compass inside your heart</strong></p>
+                <p>3. <strong class="text-amber-300">Never say die</strong></p>
+                <p>4. <strong class="text-amber-300">Good riddance!</strong></p>
+              </div>
+
+              <div class="p-3 bg-otgw-bg rounded-xl border border-otgw-border space-y-2">
+                <div class="font-bold text-amber-400 border-b border-otgw-border pb-1">Russian Meanings</div>
+                <p>A. Скатертью дорога!</p>
+                <p>B. Раскрыть секрет / выпустить кота</p>
+                <p>C. Никогда не сдавайся</p>
+                <p>D. Следуй компасу внутри своего сердца</p>
+              </div>
+            </div>
+
+            <!-- Reveal Answer Toggle -->
+            <div class="text-center pt-2">
+              <button onclick="toggleAnswers('ans-14')" class="px-4 py-2 rounded-lg bg-amber-800 hover:bg-amber-700 text-amber-100 font-bold text-xs transition">
+                👁 Click to Check Answers
+              </button>
+              <div id="ans-14" class="hidden mt-3 p-3 bg-emerald-950/60 border border-emerald-700/50 rounded-xl text-xs text-emerald-200 font-mono">
+                ✅ Answers: 1-B | 2-D | 3-C | 4-A
+              </div>
+            </div>
+          </div>
+        `
+      },
+
+      // SLIDE 15
+      {
+        id: 15,
+        title: "Atmospheric & Rare Vocabulary Masterclass",
+        subtitle: "Block 6 & Unsettling Adjectives",
+        icon: "✨",
+        teacherNotes: "Focus on rich descriptive adjectives. Challenge students to create one sentence combining 2 rare words.",
+        content: `
+          <div class="space-y-5">
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+              
+              <div class="p-3 bg-otgw-bg rounded-xl border border-otgw-border">
+                <div class="text-amber-400 font-bold text-sm">pastoral</div>
+                <div class="text-xs text-otgw-muted">пасторальный, сельский</div>
+                <div class="text-[11px] text-amber-200/80 mt-1">"A tranquil pastoral valley..."</div>
+              </div>
+
+              <div class="p-3 bg-otgw-bg rounded-xl border border-otgw-border">
+                <div class="text-amber-400 font-bold text-sm">melodious</div>
+                <div class="text-xs text-otgw-muted">мелодичный</div>
+                <div class="text-[11px] text-amber-200/80 mt-1">"A melodious song echoing..."</div>
+              </div>
+
+              <div class="p-3 bg-otgw-bg rounded-xl border border-otgw-border">
+                <div class="text-amber-400 font-bold text-sm">ominous</div>
+                <div class="text-xs text-otgw-muted">зловещий</div>
+                <div class="text-[11px] text-amber-200/80 mt-1">"An ominous shadow lurks..."</div>
+              </div>
+
+              <div class="p-3 bg-otgw-bg rounded-xl border border-otgw-border">
+                <div class="text-amber-400 font-bold text-sm">simple-minded</div>
+                <div class="text-xs text-otgw-muted">простодушный</div>
+                <div class="text-[11px] text-amber-200/80 mt-1">"A witless, simple-minded fool."</div>
+              </div>
+
+              <div class="p-3 bg-otgw-bg rounded-xl border border-otgw-border">
+                <div class="text-amber-400 font-bold text-sm">Adelaide of Pasture</div>
+                <div class="text-xs text-otgw-muted">Аделаида Пастбищная</div>
+                <div class="text-[11px] text-amber-200/80 mt-1">"The Good Woman of the Woods."</div>
+              </div>
+
+              <div class="p-3 bg-otgw-bg rounded-xl border border-otgw-border">
+                <div class="text-amber-400 font-bold text-sm">laughing evilly</div>
+                <div class="text-xs text-otgw-muted">зловеще смеясь</div>
+                <div class="text-[11px] text-amber-200/80 mt-1">"The villain left, laughing evilly."</div>
+              </div>
+
+            </div>
+
+            <!-- Sentence Construction Game -->
+            <div class="bg-amber-950/40 p-4 rounded-xl border border-amber-700/50 space-y-2">
+              <span class="text-xs font-bold text-amber-400 uppercase tracking-wider">🎲 Rapid-Fire Sentence Generator</span>
+              <p class="text-xs text-amber-200 font-story">
+                Pick 2 words from above and build a 1-sentence dark fairy tale starter!
+              </p>
+            </div>
+          </div>
+        `
+      },
+
+      // SLIDE 16
+      {
+        id: 16,
+        title: "Interactive Roleplay: The Tavern Audition",
+        subtitle: "Character Speaking Cards",
+        icon: "🎭",
+        teacherNotes: "Assign roles to students or pairs. Let them act out the scene using as many target words from the prompt as possible.",
+        content: `
+          <div class="space-y-4">
+            <p class="font-story text-sm text-amber-200">
+              Choose a character card below and introduce yourself to the tavern using your target vocabulary!
+            </p>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <!-- Card A -->
+              <div class="bg-otgw-bg p-4 rounded-xl border border-amber-900/60 space-y-2">
+                <div class="text-2xl">🔪</div>
+                <h4 class="font-vintage text-amber-400 font-bold text-sm">Role A: The Highwayman</h4>
+                <p class="text-xs text-otgw-muted">You are a rough robber who works with his hands.</p>
+                <div class="text-xs text-amber-300 font-semibold">Must use:</div>
+                <div class="text-[11px] text-amber-200/80">• make ends meet<br>• knock out<br>• drag off<br>• lipstick</div>
+              </div>
+
+              <!-- Card B -->
+              <div class="bg-otgw-bg p-4 rounded-xl border border-amber-900/60 space-y-2">
+                <div class="text-2xl">🎩</div>
+                <h4 class="font-vintage text-amber-400 font-bold text-sm">Role B: Wirt the Pilgrim</h4>
+                <p class="text-xs text-otgw-muted">You refuse social labels and wear a pointy cone.</p>
+                <div class="text-xs text-amber-300 font-semibold">Must use:</div>
+                <div class="text-[11px] text-amber-200/80">• I don't really like labels<br>• pilgrim / sacred journey<br>• pointy cone</div>
+              </div>
+
+              <!-- Card C -->
+              <div class="bg-otgw-bg p-4 rounded-xl border border-amber-900/60 space-y-2">
+                <div class="text-2xl">🍺</div>
+                <h4 class="font-vintage text-amber-400 font-bold text-sm">Role C: Tavern Keeper</h4>
+                <p class="text-xs text-otgw-muted">You warn travelers about the Beast and Edelwood trees.</p>
+                <div class="text-xs text-amber-300 font-semibold">Must use:</div>
+                <div class="text-[11px] text-amber-200/80">• lurks in the Unknown<br>• will begins to spoil<br>• tree of oil</div>
+              </div>
+            </div>
+
+            <div class="p-3 bg-amber-950/40 rounded-xl border border-amber-800/50 text-center text-xs text-amber-300">
+              💡 <em>Bonus challenge: Work in "Nice to horse your acquaintance!" or "Acting all bananas!"</em>
+            </div>
+          </div>
+        `
+      },
+
+      // SLIDE 17
+      {
+        id: 17,
+        title: "Speaking Game: 'Tales in the Unknown'",
+        subtitle: "Story Construction Prompt Generator",
+        icon: "🎲",
+        teacherNotes: "Click the 'Roll New Prompt' button to generate random vocabulary combinations for students to weave into a story.",
+        content: `
+          <div class="space-y-5 text-center">
+            <p class="font-story text-amber-200 text-sm">
+              Click the button to draw 3 random vocabulary items. Tell a 45-second story using all three!
+            </p>
+
+            <div id="story-card" class="bg-otgw-bg p-6 rounded-2xl border-2 border-amber-600/50 max-w-xl mx-auto shadow-xl space-y-4">
+              <div class="text-xs font-bold text-amber-500 uppercase tracking-widest">Your Drawn Cards</div>
+              <div id="story-words" class="flex flex-wrap justify-center gap-3">
+                <span class="px-3 py-1.5 rounded-lg bg-amber-950 border border-amber-700 text-amber-300 text-sm font-bold">carriage driver</span>
+                <span class="px-3 py-1.5 rounded-lg bg-amber-950 border border-amber-700 text-amber-300 text-sm font-bold">bad omen</span>
+                <span class="px-3 py-1.5 rounded-lg bg-amber-950 border border-amber-700 text-amber-300 text-sm font-bold">never say die</span>
+              </div>
+            </div>
+
+            <div>
+              <button onclick="drawRandomCards()" class="px-6 py-2.5 rounded-xl bg-amber-600 hover:bg-amber-500 text-amber-950 font-bold text-sm shadow-lg transition">
+                🎲 Draw New Cards
+              </button>
+            </div>
+
+            <div class="p-4 bg-otgw-card rounded-xl border border-otgw-border max-w-xl mx-auto text-xs text-otgw-muted font-story">
+              Timer Recommendation: Give each student 30 seconds to think and 45 seconds to present their dark tale!
+            </div>
+          </div>
+        `
+      },
+
+      // SLIDE 18
+      {
+        id: 18,
+        title: "Lesson Wrap-Up & Homework Task",
+        subtitle: "Summary, Reflection & Creative Writing",
+        icon: "📜",
+        teacherNotes: "Summarize main learnings. Assign homework: Write a short character monologue or song using at least 10 words from the dictionary.",
+        content: `
+          <div class="space-y-6">
+            <div class="bg-amber-950/30 p-5 rounded-xl border border-amber-700/50 space-y-3">
+              <h3 class="font-vintage text-amber-400 font-bold text-lg">🌟 What We Learned Today</h3>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs text-amber-100">
+                <div class="flex items-center gap-2">
+                  <span>✅</span> 65+ Episode 4 vocabulary words & trades
+                </div>
+                <div class="flex items-center gap-2">
+                  <span>✅</span> 20 key idioms & dramatic warnings
+                </div>
+                <div class="flex items-center gap-2">
+                  <span>✅</span> Conversational responses to labels & questions
+                </div>
+                <div class="flex items-center gap-2">
+                  <span>✅</span> Character songs & atmospheric storytelling
+                </div>
+              </div>
+            </div>
+
+            <!-- Homework Task Box -->
+            <div class="bg-otgw-card p-5 rounded-xl border border-otgw-border space-y-3">
+              <span class="text-xs font-bold text-amber-500 uppercase tracking-widest">📝 Homework Assignment</span>
+              <p class="text-xs sm:text-sm text-amber-200 font-story leading-relaxed">
+                Choose <strong>one</strong> of the following tasks for next time:
+              </p>
+              <ol class="text-xs text-amber-100/90 space-y-2 list-decimal list-inside font-story">
+                <li><strong>The Highwayman's Diary:</strong> Write a 1-paragraph story about a day in the life of the Highwayman using at least 8 target words.</li>
+                <li><strong>My Own Tavern Label:</strong> If you walked into the J.T. Tavern, what would your title be? Write your intro speech using <em>"I don't really like labels"</em> or <em>"I am the master of my own destiny"</em>.</li>
+              </ol>
+            </div>
+
+            <div class="text-center pt-2 font-vintage text-amber-500 text-sm font-bold">
+              "Follow that compass inside your heart... and keep the lantern lit!" 🏮
+            </div>
+          </div>
+        `
+      }
+    ];
+
+    // APPLICATION STATE
+    let currentSlide = 0;
+    let isTeacherNotesOpen = false;
+
+    // INITIALIZE ON DOM LOAD
+    document.addEventListener("DOMContentLoaded", () => {
+      renderSlide();
+      renderOverviewGrid();
+      updateDictCount();
+      renderDictionary();
+
+      // Keyboard navigation
+      document.addEventListener("keydown", (e) => {
+        if (document.getElementById("dict-modal").classList.contains("hidden") &&
+            document.getElementById("overview-modal").classList.contains("hidden")) {
+          if (e.key === "ArrowRight" || e.key === " ") {
+            nextSlide();
+          } else if (e.key === "ArrowLeft") {
+            prevSlide();
+          }
+        }
+      });
+    });
+
+    // RENDER CURRENT SLIDE
+    function renderSlide() {
+      const slide = slidesData[currentSlide];
+      const container = document.getElementById("slide-container");
+
+      // Slide content
+      container.innerHTML = `
+        <div class="flex items-center justify-between border-b border-otgw-border pb-3 mb-4">
+          <div class="flex items-center gap-3">
+            <span class="text-2xl sm:text-3xl">${slide.icon}</span>
+            <div>
+              <h2 class="font-vintage text-lg sm:text-2xl font-bold text-amber-400 tracking-wide">${slide.title}</h2>
+              <p class="text-xs text-otgw-muted font-story">${slide.subtitle}</p>
+            </div>
+          </div>
+          <span class="text-xs font-mono px-2.5 py-1 rounded-md bg-amber-950/80 border border-amber-800/60 text-amber-400">
+            Slide ${slide.id} / ${slidesData.length}
+          </span>
+        </div>
+
+        <div class="flex-1 my-auto font-sans">
+          ${slide.content}
+        </div>
+      `;
+
+      // Update footer controls
+      document.getElementById("slide-number-display").innerText = `Slide ${slide.id} / ${slidesData.length}`;
+      const progressPercent = ((slide.id) / slidesData.length) * 100;
+      document.getElementById("progress-bar").style.width = `${progressPercent}%`;
+
+      document.getElementById("prev-btn").disabled = (currentSlide === 0);
+      document.getElementById("next-btn").disabled = (currentSlide === slidesData.length - 1);
+
+      // Update teacher notes text
+      document.getElementById("teacher-notes-text").innerText = slide.teacherNotes || "Encourage active speaking and dramatic roleplay!";
+
+      // Reset scroll
+      container.scrollTop = 0;
+    }
+
+    // SLIDE NAVIGATION
+    function nextSlide() {
+      if (currentSlide < slidesData.length - 1) {
+        currentSlide++;
+        renderSlide();
+      }
+    }
+
+    function prevSlide() {
+      if (currentSlide > 0) {
+        currentSlide--;
+        renderSlide();
+      }
+    }
+
+    function goToSlide(index) {
+      currentSlide = index;
+      renderSlide();
+      toggleOverviewModal();
+    }
+
+    // TEACHER NOTES TOGGLE
+    function toggleTeacherNotes() {
+      const panel = document.getElementById("teacher-notes-panel");
+      isTeacherNotesOpen = !isTeacherNotesOpen;
+      if (isTeacherNotesOpen) {
+        panel.classList.remove("hidden");
+      } else {
+        panel.classList.add("hidden");
+      }
+    }
+
+    // OVERVIEW MODAL
+    function toggleOverviewModal() {
+      const modal = document.getElementById("overview-modal");
+      modal.classList.toggle("hidden");
+    }
+
+    function renderOverviewGrid() {
+      const grid = document.getElementById("overview-grid");
+      grid.innerHTML = slidesData.map((slide, idx) => `
+        <div onclick="goToSlide(${idx})" class="p-3 rounded-xl bg-otgw-bg border border-otgw-border hover:border-amber-500 cursor-pointer transition flex flex-col justify-between h-28 ${idx === currentSlide ? 'border-amber-500 bg-amber-950/30' : ''}">
+          <div class="flex justify-between items-center text-xs font-bold text-amber-400">
+            <span>${slide.icon} Slide ${slide.id}</span>
+          </div>
+          <p class="text-xs font-vintage text-amber-200 line-clamp-2">${slide.title}</p>
+          <span class="text-[10px] text-otgw-muted uppercase">Click to open</span>
+        </div>
+      `).join('');
+    }
+
+    // DICTIONARY MODAL & SEARCH
+    function toggleDictionaryModal() {
+      const modal = document.getElementById("dict-modal");
+      modal.classList.toggle("hidden");
+    }
+
+    function updateDictCount() {
+      document.getElementById("dict-count").innerText = vocabularyList.length;
+    }
+
+    function renderDictionary(items = vocabularyList) {
+      const list = document.getElementById("dict-list");
+      if (items.length === 0) {
+        list.innerHTML = `<div class="text-center text-otgw-muted py-8 text-sm">No dictionary entries match your search query.</div>`;
+        return;
+      }
+
+      list.innerHTML = items.map(item => `
+        <div class="p-3.5 bg-otgw-bg rounded-xl border border-otgw-border flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:border-amber-700/60 transition">
+          <div class="space-y-1">
+            <div class="flex items-center gap-2 flex-wrap">
+              <span class="font-bold text-amber-400 text-sm sm:text-base font-vintage">${item.word}</span>
+              ${item.transcription ? `<span class="text-xs text-amber-300/70 font-mono">${item.transcription}</span>` : ''}
+              <span class="px-2 py-0.5 rounded text-[10px] bg-amber-950 border border-amber-800 text-amber-400 font-semibold uppercase">${item.category}</span>
+            </div>
+            <div class="text-xs text-otgw-parchment font-semibold">🇷🇺 ${item.translation}</div>
+            ${item.example ? `<div class="text-xs text-otgw-muted font-story italic">"${item.example}"</div>` : ''}
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function filterDictionary() {
+      const query = document.getElementById("dict-search").value.toLowerCase().trim();
+      const cat = document.getElementById("dict-filter").value;
+
+      const filtered = vocabularyList.filter(item => {
+        const matchesQuery = item.word.toLowerCase().includes(query) ||
+                             item.translation.toLowerCase().includes(query) ||
+                             (item.example && item.example.toLowerCase().includes(query));
+        const matchesCat = (cat === "all") || (item.category === cat);
+        return matchesQuery && matchesCat;
+      });
+
+      renderDictionary(filtered);
+    }
+
+    // SLIDE SPECIFIC INTERACTIVE HELPERS
+    function toggleAnswers(id) {
+      const el = document.getElementById(id);
+      el.classList.toggle("hidden");
+    }
+
+    function drawRandomCards() {
+      const shuffled = [...vocabularyList].sort(() => 0.5 - Math.random());
+      const selected = shuffled.slice(0, 3);
+      const container = document.getElementById("story-words");
+      container.innerHTML = selected.map(s => `
+        <span class="px-3 py-1.5 rounded-lg bg-amber-950 border border-amber-700 text-amber-300 text-sm font-bold shadow-sm">
+          ${s.word}
+        </span>
+      `).join('');
+    }
+  </script>
+</body>
+</html>
